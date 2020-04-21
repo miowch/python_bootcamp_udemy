@@ -1,11 +1,11 @@
 class Participant:
 
     def __init__(self):
-        self.hand = []
+        self.__hand = []
 
     def hit(self, deck):
         card = deck.give_card()
-        self.hand.append(card)
+        self.__hand.append(card)
 
     def stay(self):
         pass
@@ -13,12 +13,14 @@ class Participant:
     def calculate_hand(self):
         score = 0
         aces = 0
-        for card in self.hand:
-            if card.index != 1 and card.index not in range(11, 14):
-                score += card.index
-            elif card.index in range(11, 14):  # each face card gives 10 points
+        for card in self.__hand:
+            value = card.get_value()
+
+            if value != 1 and value not in range(11, 14):
+                score += value
+            elif value in range(11, 14):  # each face card gives 10 points
                 score += 10
-            elif card.index == 1:
+            elif value == 1:
                 aces += 1
 
         # ace gives 1 or 11 points whenever value is preferable to the participant
@@ -35,5 +37,11 @@ class Participant:
         return score
 
     def face_up_hand(self):
-        for card in self.hand:
+        for card in self.__hand:
             print(str(card))
+
+    def count_cards_in_hand(self):
+        return len(self.__hand)
+
+    def empty_hand(self):
+        self.__hand = []

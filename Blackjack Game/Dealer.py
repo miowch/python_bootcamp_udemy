@@ -2,12 +2,12 @@ from Participant import Participant
 
 
 class Dealer(Participant):
-    bank = 0
+    __bank = 0
 
     def accept_bet(self, bet):
         try:
             if bet > 0:
-                self.bank += int(bet)
+                self.__bank += int(bet)
                 print(f"{bet} is accepted as a bet!")
             else:
                 print("Bet is expected as natural number.")
@@ -15,4 +15,12 @@ class Dealer(Participant):
             print("Bet is expected as an integer.")
 
     def face_up_top_card(self):
-        print(str(self.hand[0]))
+        print(f"One of two dealer's cards is {str(self.hand[0])}.")
+
+    def give_payoff(self):
+        payoff = self.__bank
+        self.__bank = 0
+        return payoff
+
+    def remove_bet(self):
+        self.__bank = 0
