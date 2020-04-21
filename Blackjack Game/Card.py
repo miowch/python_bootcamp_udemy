@@ -7,7 +7,7 @@ class Card:
     def __str__(self):
         if self.__index == 1:
             return f"Ace of {self.__suit}"
-        elif self.__index in range(2,11):
+        elif self.__index in range(2, 11):
             return f"{self.__index} of {self.__suit}"
         elif self.__index == 11:
             return f"Jack of {self.__suit}"

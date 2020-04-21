@@ -45,3 +45,6 @@ class Participant:
 
     def empty_hand(self):
         self.__hand = []
+
+    def show_card(self, index):
+        return str(self.__hand[index])

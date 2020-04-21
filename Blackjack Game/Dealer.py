@@ -15,7 +15,7 @@ class Dealer(Participant):
             print("Bet is expected as an integer.")
 
     def face_up_top_card(self):
-        print(f"One of two dealer's cards is {str(self.hand[0])}.")
+        print(f"One of two dealer's cards is {self.show_card(0)}.")
 
     def give_payoff(self):
         payoff = self.__bank
