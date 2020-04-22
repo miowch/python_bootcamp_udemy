@@ -7,7 +7,7 @@ class Deck:
     def __init__(self):
         """Create shuffled deck."""
         self.__deck = []
-        for card_suit in ('spades', 'hearts', 'diamonds', 'clubs'):
+        for card_suit in ('♠', '♥', '♦', '♣'):
             for card_index in range(1, 14):
                 card = Card(card_suit, card_index)
                 self.__deck.append(card)
