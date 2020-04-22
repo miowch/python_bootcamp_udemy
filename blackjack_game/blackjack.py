@@ -6,16 +6,16 @@ from Deck import Deck
 
 PLAYER = Player(10)
 DEALER = Dealer()
-deck = Deck()
+DECK = Deck()
 
 
 def draw_cards():
     """Hand out cards to all and face up dealer's top card."""
-    PLAYER.hit(deck)
-    PLAYER.hit(deck)
+    PLAYER.hit(DECK)
+    PLAYER.hit(DECK)
 
-    DEALER.hit(deck)
-    DEALER.hit(deck)
+    DEALER.hit(DECK)
+    DEALER.hit(DECK)
 
     print('\nThe cards are dealt!\n')
 
@@ -31,7 +31,7 @@ def player_makes_moves():
         player_action = str(input('\nHIT or STAY? ')).lower()
 
         if player_action == 'hit':
-            PLAYER.hit(deck)
+            PLAYER.hit(DECK)
         elif player_action == 'stay':
             break
         else:
@@ -42,7 +42,7 @@ def player_makes_moves():
 def dealer_makes_moves():
     """Dealer hits while value of their hand less than 17."""
     while DEALER.calculate_hand() < 17:
-        DEALER.hit(deck)
+        DEALER.hit(DECK)
 
 
 def compare_hands(bet):
@@ -84,8 +84,7 @@ def is_blackjack(bet):
         DEALER.remove_bet()
         print(f'\nPlayer wins {bet}!')
         return True
-    else:
-        return False
+    return False
 
 
 def check_bust(bet):
@@ -107,21 +106,19 @@ def check_bust(bet):
         DEALER.remove_bet()
         print(f'\nPlayer win {bet}!')
         return True
-    else:
-        return False
+    return False
 
 
 def play_again():
     """Suggest player continue the game."""
     if str(input('\nDo you want to play again?\nEnter Yes or No. ')).lower() == 'yes':
-        global deck
-        deck = Deck()
+        global DECK  # TODO: review
+        DECK = Deck()
         PLAYER.empty_hand()
         DEALER.empty_hand()
         return True
-    else:
-        print('\nSee you later! Bye-bye!')
-        return False
+    print('\nSee you later! Bye-bye!')
+    return False
 
 
 def blackjack():
