@@ -2,12 +2,14 @@ from Participant import Participant
 
 
 class Player(Participant):
-
-    def __init__(self):
+    """Human player."""
+    def __init__(self, coins):
+        """Create player with some coins."""
         Participant.__init__(self)
-        self.__money = 10
+        self.__money = coins
 
     def place_bet(self):
+        """Place a bet taking into account player's coins."""
         while True:
             try:
                 bet = int(input("Place a bet, please: "))
@@ -24,10 +26,13 @@ class Player(Participant):
                 continue
 
     def loss_deduction(self, loss):
+        """Deduct loss from account."""
         self.__money -= loss
 
     def get_payoff(self, payoff):
+        """Deposit a winnings into account."""
         self.__money += payoff
 
     def get_balance(self):
+        """Return coins quantity player has."""
         return self.__money
