@@ -1,5 +1,6 @@
 class Participant:
     """Participant of card game."""
+
     def __init__(self):
         """Participant without cards in their hand."""
         self.__hand = []

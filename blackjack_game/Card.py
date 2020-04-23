@@ -1,5 +1,6 @@
 class Card:
     """Playing card."""
+
     def __init__(self, suit, index):
         """Playing card with suit and index."""
         self.__suit = suit
