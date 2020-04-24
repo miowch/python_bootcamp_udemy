@@ -5,11 +5,11 @@ from Card import Card
 
 class TestParticipant(unittest.TestCase):
     def setUp(self):
-        self.ace_card = Card('♦', 1)
-        self.number_card = Card('♥', 10)
-        self.jack_card = Card('♠', 11)
-        self.queen_card = Card('♣', 12)
-        self.king_card = Card('♠', 13)
+        self.ace_card = Card('♦️', 1)
+        self.number_card = Card('♥️', 10)
+        self.jack_card = Card('♠️', 11)
+        self.queen_card = Card('♣️', 12)
+        self.king_card = Card('♠️', 13)
 
     # TODO: Find out how to use mocking instead of accessing private variables.
     def test_calculate_number_card_in_hand(self):
