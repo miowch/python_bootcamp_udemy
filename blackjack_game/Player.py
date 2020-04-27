@@ -8,6 +8,7 @@ class Player(Participant):
         """Create player with some coins."""
         Participant.__init__(self)
         self.__money = coins
+        self.__bet = 0
 
     def __input_bet(self):
         """Validate input as int"""
@@ -34,20 +35,23 @@ class Player(Participant):
         while True:
             bet = self.__input_bet()
             if self.__validate_bet(bet):
-                return bet
+                self.__bet = bet
+                return self.__bet
 
-    def loss_deduction(self, loss):
+    def loss_deduction(self):
         """Deduct loss from account."""
-        if loss <= self.__money:
-            self.__money -= loss
-        else:
-            print('Oops! Player\'s loss was calculated incorrectly.')
-            raise Exception
+        self.__money -= self.__bet
+        self.__bet = 0
 
-    def get_payoff(self, payoff):
+    def get_payoff(self):
         """Deposit a winnings into account."""
-        self.__money += payoff
+        self.__money += self.__bet
+        self.__bet = 0
 
     def get_balance(self):
         """Return coins quantity player has."""
         return self.__money
+
+    def get_bet(self):
+        """Return bet."""
+        return self.__bet

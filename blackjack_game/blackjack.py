@@ -4,144 +4,153 @@ from Player import Player
 from Dealer import Dealer
 from Deck import Deck
 
-PLAYER = Player(10)
-DEALER = Dealer()
-DECK = Deck()
 
-
-def draw_cards():
+def draw_cards(deck, dealer, player):
     """Hand out cards to all and face up dealer's top card."""
-    PLAYER.hit(DECK)
-    PLAYER.hit(DECK)
-
-    DEALER.hit(DECK)
-    DEALER.hit(DECK)
+    for i in range(1, 3):
+        player.hit(deck)
+        dealer.hit(deck)
+        i += 1
 
     print('\nThe cards are dealt!\n')
+    dealer.face_up_top_card()
 
-    DEALER.face_up_top_card()
 
-
-def player_makes_moves():
+def player_makes_moves(deck, player):
     """Player chooses whether hit or stay while value of their hand less than 21."""
-    while PLAYER.calculate_hand() < 21:
+    while player.calculate_hand() < 21:
         print('\nPlayer, you have following cards in your hand:')
-        PLAYER.face_up_hand()
-
-        player_action = str(input('\nHIT or STAY? ')).lower()
-
-        if player_action == 'hit':
-            PLAYER.hit(DECK)
-        elif player_action == 'stay':
+        player.face_up_hand()
+        action = str(input('\nHIT or STAY? ')).lower()
+        if action == 'hit':
+            player.hit(deck)
+        elif action == 'stay':
             break
         else:
             print('\nPlease, enter your action.')
             continue
 
 
-def dealer_makes_moves():
+def dealer_makes_moves(deck, dealer):
     """Dealer hits while value of their hand less than 17."""
-    while DEALER.calculate_hand() < 17:
-        DEALER.hit(DECK)
+    while dealer.calculate_hand() < 17:
+        dealer.hit(deck)
 
 
-def compare_hands(bet):
+def compare_hands(dealer, player):
     """Compare hands and return game result from player's perspective."""
-    if DEALER.calculate_hand() < PLAYER.calculate_hand():
-        print('\nPlayer beats the dealer! Here player\'s cards are:')
-        PLAYER.face_up_hand()
+    if dealer.calculate_hand() < player.calculate_hand():
+        prize = player.get_bet()
+
+        print('\n🎉 Player beats the dealer! 🎉\nHere player\'s cards are:')
+        player.face_up_hand()
         print('\nAgainst dealer\'s cards:')
-        DEALER.face_up_hand()
-        PLAYER.get_payoff(bet)
-        DEALER.remove_bet()
-        return print(f'\nPlayer wins {bet}')
-    if DEALER.calculate_hand() > PLAYER.calculate_hand():
-        print('\nDealer beats the player! Here dealer\'s cards are:')
-        DEALER.face_up_hand()
-        print('\nAgainst player\'s cards:')
-        PLAYER.face_up_hand()
-        PLAYER.loss_deduction(bet)
-        DEALER.remove_bet()
-        if PLAYER.get_balance() == 0:
-            return print('Player loses all their money!')
-        return print(f'\nPlayer loses {bet}')
+        dealer.face_up_hand()
 
-    if DEALER.calculate_hand() == PLAYER.calculate_hand():
+        player.get_payoff()
+        dealer.remove_bet()
+        return print(f'\n✨ Player wins {prize} ✨')
+    if dealer.calculate_hand() > player.calculate_hand():
+        loss = player.get_bet()
+
+        print('\n🤡 Dealer beats the player! 🤡\nHere dealer\'s cards are:')
+        dealer.face_up_hand()
+        print('\nAgainst player\'s cards:')
+        player.face_up_hand()
+
+        player.loss_deduction()
+        dealer.remove_bet()
+        if player.get_balance() == 0:
+            return print('💩 Player loses all their money! 💩')
+        return print(f'\n💩 Player loses {loss} 💩')
+
+    if dealer.calculate_hand() == player.calculate_hand():
         print('\nHere dealer\'s cards are:')
-        DEALER.face_up_hand()
+        dealer.face_up_hand()
         print('\nAgainst player\'s cards:')
-        PLAYER.face_up_hand()
-        DEALER.remove_bet()
-        return print('\nStandoff!')
+        player.face_up_hand()
+        dealer.remove_bet()
+        return print('\n🤝 Standoff! 🤝')
 
 
-def is_blackjack(bet):
+def is_blackjack(dealer, player):
     """The player is paid out immediately, if it is blackjack."""
-    if PLAYER.calculate_hand() == 21:
-        print('\nCongratulations! Blackjack!')
-        PLAYER.face_up_hand()
-        PLAYER.get_payoff(bet)
-        DEALER.remove_bet()
-        print(f'\nPlayer wins {bet}!')
+    if player.calculate_hand() == 21:
+        prize = player.get_bet()
+        print('\n😎 Congratulations! Blackjack! 😎')
+        player.face_up_hand()
+        player.get_payoff()
+        dealer.remove_bet()
+        print(f'\n✨ Player wins {prize}! ✨')
         return True
     return False
 
 
-def check_bust(bet):
+def check_bust(dealer, player):
     """Return whether a participant busts."""
-    if PLAYER.calculate_hand() > 21:
+    bet = player.get_bet()
+    if player.calculate_hand() > 21:
         print('\nLooks like your hand value exceeds 21:')
-        PLAYER.face_up_hand()
-        PLAYER.loss_deduction(bet)
-        DEALER.remove_bet()
-        if PLAYER.get_balance() == 0:
-            print(f'\nPlayer busts and loses all their money! Dealer wins!')
+        player.face_up_hand()
+        player.loss_deduction()
+        dealer.remove_bet()
+        if player.get_balance() == 0:
+            print(f'\n💩 Player busts and loses all their money! Dealer wins! 💩')
         else:
-            print(f'\nPlayer busts and loses {bet}! Dealer wins!')
+            print(f'\n💩 Player busts and loses {bet}! Dealer wins! 💩')
         return True
-    if DEALER.calculate_hand() > 21:
+    if dealer.calculate_hand() > 21:
         print('\nDealer busts!')
-        DEALER.face_up_hand()
-        PLAYER.get_payoff(bet)
-        DEALER.remove_bet()
-        print(f'\nPlayer win {bet}!')
+        dealer.face_up_hand()
+        player.get_payoff()
+        dealer.remove_bet()
+        print(f'\n🎉 Player win {bet}! 🎉')
         return True
     return False
 
 
-def play_again():
+def play_again(deck, dealer, player):
     """Suggest player continue the game."""
     if str(input('\nDo you want to play again?\nEnter Yes or No. ')).lower() == 'yes':
-        global DECK  # TODO: review
-        DECK = Deck()
-        PLAYER.empty_hand()
-        DEALER.empty_hand()
+        deck.assemble()
+        player.empty_hand()
+        dealer.empty_hand()
         return True
-    print('\nSee you later! Bye-bye!')
+    print('\n🙃 See you later! Bye-bye! 🙂')
     return False
 
 
-def blackjack():
+def blackjack(deck, dealer, player):
     """Game logic."""
-    print('Welcome to Blackjack Game!\nPlayer goes first!\n' +
+    print('Welcome to Blackjack Game! 🍸\nPlayer goes first!\n' +
           'Player goal: get closer to a total value of 21 than the dealer does.\n')
 
-    print(f'\nPlayer has {PLAYER.get_balance()} coins.')
-    bet = PLAYER.place_bet()
-    DEALER.accept_bet(bet)
+    print(f'\nPlayer has {player.get_balance()} coins.')
+    bet = player.place_bet()
+    dealer.accept_bet(bet)
 
-    draw_cards()
+    draw_cards(deck, dealer, player)
 
-    if not is_blackjack(bet):
-        player_makes_moves()
-        if not check_bust(bet):
-            dealer_makes_moves()
-            if not check_bust(bet):
-                compare_hands(bet)
+    if not is_blackjack(bet, player):
+        player_makes_moves(deck, player)
+        if not check_bust(dealer, player):
+            dealer_makes_moves(deck, dealer)
+            if not check_bust(dealer, player):
+                compare_hands(dealer, player)
 
 
-while True:
-    blackjack()
+def run_game():
+    """Run the game."""
+    player = Player(10)
+    dealer = Dealer()
+    deck = Deck()
 
-    if PLAYER.get_balance() <= 0 or not play_again():
-        break
+    while True:
+        blackjack(deck, dealer, player)
+
+        if player.get_balance() <= 0 or not play_again(deck, dealer, player):
+            break
+
+
+if __name__ == '__main__':
+    run_game()

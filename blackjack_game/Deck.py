@@ -18,6 +18,9 @@ class Deck:
         """Return top card from the deck."""
         return self.__deck.pop(0)
 
+    def assemble(self):
+        self.__init__()
+
     def __len__(self):
         """Return cards quantity in the deck."""
         return len(self.__deck)

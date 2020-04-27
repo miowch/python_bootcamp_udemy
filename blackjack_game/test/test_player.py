@@ -60,12 +60,14 @@ class TestPlayer(unittest.TestCase):
 
     def test_get_balance_after_payoff(self):
         player = Player(2)
-        player.get_payoff(1)
+        player._Player__bet = 1
+        player.get_payoff()
         self.assertEqual(3, player.get_balance())
 
     def test_get_balance_after_loss_deduction(self):
         player = Player(2)
-        player.loss_deduction(1)
+        player._Player__bet = 1
+        player.loss_deduction()
         self.assertEqual(1, player.get_balance())
 
     @patch('sys.stdout', new_callable=StringIO)
