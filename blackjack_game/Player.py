@@ -4,11 +4,13 @@ from Participant import Participant
 class Player(Participant):
     """Human player."""
 
+    __money = 0
+    __bet = 0
+
     def __init__(self, coins):
         """Create player with some coins."""
         Participant.__init__(self)
         self.__money = coins
-        self.__bet = 0
 
     def __input_bet(self):
         """Validate input as int"""

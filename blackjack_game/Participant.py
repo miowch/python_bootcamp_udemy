@@ -1,6 +1,8 @@
 class Participant:
     """Participant of card game."""
 
+    __hand = []
+
     def __init__(self):
         """Participant without cards in their hand."""
         self.__hand = []
@@ -52,7 +54,7 @@ class Participant:
 
     def empty_hand(self):
         """Remove all cards from the hand."""
-        self.__hand = []
+        self.__hand.clear()
 
     def show_card(self, index):
         """Show particular card in the hand."""

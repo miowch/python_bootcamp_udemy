@@ -3,6 +3,7 @@ from Participant import Participant
 
 class Dealer(Participant):
     """Computer dealer."""
+
     __bank = 0
 
     def accept_bet(self, bet):
