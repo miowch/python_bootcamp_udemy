@@ -48,5 +48,27 @@ def merge_sort(array: list):
     return merged_array
 
 
+def bubble_sort(array: list):
+    """
+    Optimized bubble sort.
+    If array is already sorted for-loop breaks.
+    """
+    for n in range(0, len(array)):
+        swapped = False
+
+        # sort elements in each pair
+        for i in range(1, len(array)):
+            if array[i] < array[i-1]:
+                array[i-1], array[i] = array[i], array[i-1]
+                swapped = True
+
+        # break the loop if elements haven't been swapped during the cycle
+        if not swapped:
+            break
+
+    return array
+
+
 test_array = [38, 27, 43, 3, 9, 82, 10]
 assert merge_sort(test_array) == [3, 9, 10, 27, 38,  43,  82]
+assert bubble_sort(test_array) == [3, 9, 10, 27, 38,  43,  82]
